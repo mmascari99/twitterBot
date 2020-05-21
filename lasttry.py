@@ -1,6 +1,22 @@
+import tweepy
+import random
 import time
 import sounddevice as sd
 from gtts import gTTS
+
+CONSUMER_KEY = ''
+CONSUMER_SECRET = ''
+ACCESS_KEY = ''
+ACCESS_SECRET = ''
+
+auth = tweepy.OAuthHandler(CONSUMER_KEY,CONSUMER_SECRET)
+auth.set_access_token(ACCESS_KEY,ACCESS_SECRET)
+api = tweepy.API(auth)
+
+mentions = api.mentions_timeline()
+
+for mention in mentions:
+    print(str(mention.id) + ' - ' + mention.text)
 
 def _playsoundWin(sound, block = True):
     from ctypes import c_buffer, windll
@@ -95,7 +111,7 @@ time.sleep(1)
 
 mytext = 'beep'
 myobj = gTTS(text=mytext, lang=language, slow=False)
-myobj.save("beep.mp3")
+myobj.save('beep.mp3')
 if system == 'Windows':
     _playsoundWin('beep.mp3', True)
 elif system == 'Darwin':
@@ -108,39 +124,47 @@ import speech_recognition as sr
 # Record Audio
 r = sr.Recognizer()
 with sr.Microphone() as source:
-    print("Say something!")
+    print('Say something!')
     audio = r.listen(source)
 
 # Speech recognition using Google Speech Recognition
 try:
-    # for testing purposes, this is the default API key
-    # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-    # instead of `r.recognize_google(audio)`
     said = r.recognize_google(audio)
-    print("You said: " + said)
-    if said != 'Michael' && said != 'Bob' && said != 'Michael Mascari':
-        mytext = 'Go fuck yourself' + said
+    print('You said: ' + said)
+    test = 0
+    if said == 'Michael':
+        test = 1
+    elif said == 'Michael Mascari':
+        test = 1
+    elif said == 'Bob':
+        test = 1
+    elif said == 'Mister Bob':
+        test = 1
+    if test == 0:
+        mytext = 'Go fuck yourself ' + said
         myobj = gTTS(text=mytext, lang=language, slow=False)
-        myobj.save("fucker.mp3") 
+        myobj.save("last.mp3") 
         if system == 'Windows':
-            _playsoundWin('fucker.mp3', True)
+            _playsoundWin('last.mp3', True)
         elif system == 'Darwin':
-            _playsoundOSX('fucker.mp3', True)
+            _playsoundOSX('last.mp3', True)
         else:
-            _playsoundNix('fucker.mp3', True)
+            _playsoundNix('last.mp3', True)
+        api.update_status(mytext, random.randint(1,1000000))
     else:
         mytext = said + ' is the best guy in the whole world'
         myobj = gTTS(text=mytext, lang=language, slow=False)
-        myobj.save("fucker.mp3") 
+        myobj.save("last.mp3") 
         if system == 'Windows':
-            _playsoundWin('fucker.mp3', True)
+            _playsoundWin('last.mp3', True)
         elif system == 'Darwin':
-            _playsoundOSX('fucker.mp3', True)
+            _playsoundOSX('last.mp3', True)
         else:
-            _playsoundNix('fucker.mp3', True)
+            _playsoundNix('last.mp3', True)
+        api.update_status(mytext, random.randint(1,1000000))
 except sr.UnknownValueError:
-    print("Google Speech Recognition could not understand audio")
+    print('Google Speech Recognition could not understand audio')
 except sr.RequestError as e:
-    print("Could not request results from Google Speech Recognition service; {0}".format(e))
+    print('Could not request results from Google Speech Recognition service; {0}'.format(e))
 
 time.sleep(4)
