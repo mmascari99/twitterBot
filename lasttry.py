@@ -141,7 +141,7 @@ try:
     elif said == 'Mister Bob':
         test = 1
     if test == 0:
-        mytext = 'Go fuck yourself ' + said
+        mytext = 'Screw off ' + said
         myobj = gTTS(text=mytext, lang=language, slow=False)
         myobj.save("last.mp3") 
         if system == 'Windows':
