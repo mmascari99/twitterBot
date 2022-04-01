@@ -23,7 +23,7 @@ os.remove("beep.mp3")
 r = sr.Recognizer()
 with sr.Microphone() as source:
     print('Say something!')
-    audio = r.listen(source)
+    audio = r.listen(source, 10, 3)
 
 # Speech recognition using Google Speech Recognition
 try:
