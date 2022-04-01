@@ -1,3 +1,9 @@
+import time
+from gtts import gTTS
+import playsound
+import speech_recognition as sr
+import os
+
 def listen():
     r = sr.Recognizer()
     with sr.Microphone() as source:
